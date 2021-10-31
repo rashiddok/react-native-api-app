@@ -38,7 +38,7 @@ const Home = ({navigation}) => {
       setFilterData(filteredData)
     }
 
-    if(filterData.length > 1){
+    if(filterData.length > 0){
       return (
         <ScrollView
           contentContainerStyle={styles.container}>
