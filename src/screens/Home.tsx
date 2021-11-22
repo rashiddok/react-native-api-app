@@ -46,6 +46,9 @@ const Home = ({navigation}) => {
             <Pressable onPress={async() => navigation.navigate('Profile')}>
               <Image source={require('../avatar.jpeg')} style={styles.userAvatar}></Image>
               </Pressable>
+              <Pressable style={styles.button} onPress={async() => navigation.navigate('Cart')}>
+              <Text style={styles.buttonText}>Корзина</Text>
+              </Pressable>
             </View>
           <TextInput placeholder="Search..." style={styles.search} onChangeText={onSearchChange}></TextInput>
           {
@@ -80,6 +83,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#ebebeb'
   },
+  button: {
+    borderColor: '#000',
+    borderRadius: 5,
+    padding: 10,
+    borderWidth: 1,
+    marginTop: 15,
+    marginLeft: 'auto',
+    marginRight: 10
+},
+buttonText: {
+    color: '#000',
+    fontSize: 15
+},
   search: {
     width: '95%',
     backgroundColor: '#fff',
@@ -92,14 +108,16 @@ const styles = StyleSheet.create({
   },
   profileRow: {
     width: '100%',
-    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20
   },
   userAvatar: {
     width: 50,
     height: 50,
     borderRadius: 50,
-    marginLeft: 'auto',
-    marginRight: 'auto'
+    marginLeft: 185,
   }
 });
 

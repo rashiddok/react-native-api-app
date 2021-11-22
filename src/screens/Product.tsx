@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {useState} from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, Pressable} from 'react-native';
 
 import {AsyncStorage} from 'react-native';
 
@@ -20,7 +20,24 @@ const Product = ({navigation}) => {
             const product = res.data
             setData(product)
         })
+    }
 
+    const addToCart = async(productId: string) =>{
+        const savedItems = await AsyncStorage.getItem('cart')
+        console.log(savedItems)
+        if(savedItems){
+          const cart: any[] = JSON.parse(savedItems)
+          const ind = cart.findIndex(v=> v.id === productId)
+          if(ind !== -1){
+           cart[ind].count += 1
+          } else{
+            cart.push({id: productId, count: 1})
+          }
+           await AsyncStorage.setItem('cart', JSON.stringify(cart))
+         return 
+        }
+        const item = {id: productId, count: 1}
+        await AsyncStorage.setItem('cart', JSON.stringify([item]))
     }
 
     return (
@@ -33,8 +50,7 @@ const Product = ({navigation}) => {
           <Text style={styles.price}>${data.price}</Text>
           <Text style={styles.title}>{data.title}</Text>
           <Text style={styles.description}>{data.description}</Text>
-          
-          
+          <Pressable style={styles.button} onPress={async() => addToCart(data.id)}><Text style={styles.buttonText}>+ Add</Text></Pressable>
         </View>
     );
 }
@@ -51,6 +67,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingBottom: 15,
         borderRadius: 5
+    },
+    button: {
+        borderColor: '#000',
+        borderRadius: 5,
+        padding: 10,
+        borderWidth: 1,
+        marginTop: 15
+    },
+    buttonText: {
+        color: '#000',
+        fontSize: 15
     },
     image: {
         height: 150,
